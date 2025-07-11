@@ -1,37 +1,66 @@
-const { app, Menu, Tray } = require('electron');
+const { app, Menu, Tray, dialog } = require('electron');
 const { exec } = require('child_process');
+const os = require('os')
 
 let tray = null;
 
-let acceptedArgs = [' createDir', ' categorySort']
-let baseCommand = 'python services/sort.py'
+let userHome = os.homedir();
+let userDesktop = userHome + '\\Desktop';   // default dir for sort
+let currentDir = userDesktop;
+
+let acceptedArgs = [' createDir', ' categorySort'];
+
+let baseCommand = `python services/sort.py ${currentDir}`;
+let activatedCommand = baseCommand;
 
 app.whenReady().then(() => {
   tray = new Tray('assets/sort.png')
 
-  tray.addListener('click', () => {
-    console.log('Sorting...');
+  activatedCommand += acceptedArgs[0];
 
-    exec(baseCommand, (error, stdout, stderr) => {
+  tray.addListener('click', () => {
+    exec(activatedCommand, (error, stdout, stderr) => {
         console.log(stdout);
     });
   });
 
-  const contextMenu = Menu.buildFromTemplate([
-    {label: 'Create Directory', type: 'checkbox', checked: false, click: (createDir) => {
-        console.log('toggling create directory');
-        createDir.checked ? baseCommand += acceptedArgs[0] : baseCommand = baseCommand.replace(acceptedArgs[0], '');
-    }},
-    {label: 'Categorized Sorting', type: 'checkbox', checked: false, click: (categorySort) => {
-        console.log('toggling cateogory sort')
-        categorySort.checked ? baseCommand += acceptedArgs[1] : baseCommand = baseCommand.replace(acceptedArgs[1], '');
-    }},
-    {label: 'Exit', click: () => {
-        console.log('Exiting...');
-        app.exit();
+  let targetDirItems = [
+    {label: '+', click: () => {
+        dialog.showOpenDialog({
+            title: 'Select a folder you want to target',
+            properties: ['openDirectory']
+        }).then((result) => {
+            if (!result.canceled) {
+                targetDirItems.push({label: `${result.filePaths[0]}`});
+            }
+            updateContextMenu();
+        }).catch((error) => {
+            console.log(error);
+        })
     }}
-  ]);
+  ];
+
+  function updateContextMenu() {
+    let contextMenuItems = [
+        {label: 'Target Directory', submenu: targetDirItems},
+        {label: 'Create Directory', type: 'radio', checked: true, click: () => {
+            activatedCommand = baseCommand;
+            activatedCommand = activatedCommand += acceptedArgs[0];
+        }},
+        {label: 'Categorized Sorting', type: 'radio', checked: false, click: () => {
+            activatedCommand = baseCommand;
+            activatedCommand = activatedCommand += acceptedArgs[1];
+        }},
+        {label: 'Exit', click: () => {
+            console.log('Exiting...');
+            app.exit();
+        }}
+    ];
+    
+    const newContextMenu = Menu.buildFromTemplate(contextMenuItems);
+    tray.setContextMenu(newContextMenu);
+  }
 
   tray.setToolTip('Desktop Auto Sorter');
-  tray.setContextMenu(contextMenu);
+  updateContextMenu();
 })

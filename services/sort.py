@@ -2,34 +2,26 @@ import sys
 
 class Sorter:
     def __init__(self, argv):
-        self.args = argv
+        self.current_dir = argv[1]
+        self.argv = argv
 
-        self.createDir = False
-        self.categorySort = False
+        self.accepted_args = ["createDir", "categorySort"]
 
     def main(self):
-        active_args = []
-        accepted_args = ["createDir", "categorySort"]
+        active_mode = ""
 
-        if len(self.args) <= 1:
-            active_args.append("defaultSort")
+        if len(self.argv) <= 2 or self.argv[2] == self.accepted_args[0]:
+            active_mode = self.accepted_args[0]
+        elif self.argv[2] == self.accepted_args[1]:
+            active_mode = self.accepted_args[1]
         
-        for i in range(len(self.args)):
-            if i != 0 and self.args[i] in accepted_args:
-                active_args.append(self.args[i])
-
-        if len(active_args) <= 0:
-            return print("no valid arguments")
+        self.sort(active_mode)
         
-        self.sort(active_args)
-        
-    def sort(self, active_args):
-        if "createDir" in active_args:
-            print("sorting while creating dir")
-        if "categorySort" in active_args:
-            print("categorized sorting activated")
-        if "defaultSort" in active_args:
-            print("default sorting")
+    def sort(self, active_mode):
+        if active_mode == self.accepted_args[0]:
+            print(f"sorting while creating dir in {self.current_dir}")
+        elif active_mode == self.accepted_args[1]:
+            print(f"categorized sorting activated in {self.current_dir}")
         
 if __name__ == '__main__':
     argv = sys.argv
