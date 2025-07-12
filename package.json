@@ -1,26 +1,34 @@
 {
-  "name": "desktop-auto-sorter",
+  "name": "directory-auto-sorter",
   "version": "1.0.0",
-  "description": "auto sort desktop and other directories efficiently",
-  "keywords": [
-    "sort",
-    "auto",
-    "sort",
-    "desktop",
-    "sort",
-    "directory",
-    "sort",
-    "sorter"
-  ],
-  "license": "MIT",
-  "author": "Gtxplosiom",
-  "type": "siya",
+  "description": "Auto-sort desktop and other directories efficiently",
   "main": "main.js",
+  "author": "Gtxplosiom",
+  "license": "MIT",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.gtxplosiom.directoryautosorter",
+    "productName": "Directory Auto Sorter",
+    "copyright": "Copyright © 2025 Gtxplosiom",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*"
+    ],
+    "extraResources": [
+      "services/**"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/sort.ico"
+    }
   },
   "devDependencies": {
-    "electron": "^37.2.1"
+    "electron": "^37.2.1",
+    "electron-builder": "^24.11.0"
   }
 }

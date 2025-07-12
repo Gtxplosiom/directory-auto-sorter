@@ -21,7 +21,7 @@ let currentDir = `\"${userDesktop}\"`;
 let currentMode = acceptedArgs[0];
 
 app.whenReady().then(() => {
-  tray = new Tray('assets/sort.png');
+  tray = new Tray('assets/sort.ico');
 
   // one click sort
   tray.addListener('click', () => {
@@ -54,10 +54,15 @@ app.whenReady().then(() => {
     currentMode = mode;
   }
 
+  const updateTooltip = () => {
+    tray.setToolTip(`Tap the Icon to sort ${currentDir} or Right-click for options`);
+  }
+
   // add new path to target as well as 'remember' paths previously targeted
   let targetDirItems = [
     {label: '(Default) Desktop', type: 'radio', checked: true, click: () => {
         updateDir(userDesktop);
+        updateTooltip();
     }},
     {label: '+', click: () => {
         dialog.showOpenDialog({
@@ -67,6 +72,7 @@ app.whenReady().then(() => {
             if (!result.canceled) {
                 targetDirItems.push({label: `${result.filePaths[0]}`, type: 'radio', checked: false, click: (pathItem) => {
                     updateDir(pathItem.label);
+                    updateTooltip();
                 }});
             }
             updateContextMenu();
@@ -83,11 +89,13 @@ app.whenReady().then(() => {
             dateSort = false;    // TODO: enclose these in an object
             createDir = true;
             updateMode(acceptedArgs[0]);
+            updateTooltip();
         }},
         {label: 'Date Sorting', type: 'radio', checked: dateSort, click: () => {
             createDir = false;
             dateSort = true;
             updateMode(acceptedArgs[1]);
+            updateTooltip();
         }},
         {label: 'Exit', click: () => {
             console.log('Exiting...');
@@ -96,11 +104,11 @@ app.whenReady().then(() => {
     ];
 
     const newContextMenu = Menu.buildFromTemplate(contextMenuItems);
+
+    updateTooltip();
+
     tray.setContextMenu(newContextMenu);
   }
 
-  tray.setToolTip('Desktop Auto Sorter');
   updateContextMenu();
 })
-
-// TODO: 'remember' last n added paths
