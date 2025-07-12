@@ -9,11 +9,11 @@ let userHome = os.homedir();
 let userDesktop = userHome + '\\Desktop';   // default dir for sort
 
 // sorting modes
-let acceptedArgs = ['createDir', 'categorySort'];
+let acceptedArgs = ['createDir', 'dateSort'];
 
 // store/remember radio button state after context menu update
 let createDir = true;
-let categoryDir = false;
+let dateSort = false;
 
 // command structure. below are the initial state
 let baseCommand = 'python services/sort.py';
@@ -56,7 +56,7 @@ app.whenReady().then(() => {
 
   // add new path to target as well as 'remember' paths previously targeted
   let targetDirItems = [
-    {label: 'Default(Desktop)', type: 'radio', checked: true, click: () => {
+    {label: '(Default) Desktop', type: 'radio', checked: true, click: () => {
         updateDir(userDesktop);
     }},
     {label: '+', click: () => {
@@ -79,14 +79,14 @@ app.whenReady().then(() => {
   const updateContextMenu = () => {
     let contextMenuItems = [
         {label: 'Target Directory', submenu: targetDirItems},
-        {label: 'Create Directory', type: 'radio', checked: createDir, click: () => {
-            categoryDir = false;    // TODO: enclose these in an object
+        {label: '(Default) Directory Sorting', type: 'radio', checked: createDir, click: () => {
+            dateSort = false;    // TODO: enclose these in an object
             createDir = true;
             updateMode(acceptedArgs[0]);
         }},
-        {label: 'Categorized Sorting', type: 'radio', checked: categoryDir, click: () => {
+        {label: 'Date Sorting', type: 'radio', checked: dateSort, click: () => {
             createDir = false;
-            categoryDir = true;
+            dateSort = true;
             updateMode(acceptedArgs[1]);
         }},
         {label: 'Exit', click: () => {
@@ -103,4 +103,4 @@ app.whenReady().then(() => {
   updateContextMenu();
 })
 
-// TODO: actual sorting, and add date sorting
+// TODO: 'remember' last n added paths
