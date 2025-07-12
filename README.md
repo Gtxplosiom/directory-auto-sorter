@@ -1,7 +1,7 @@
 # directory-auto-sorter
 
-sorts files and group them into a directory
+A simple desktop system-tray app that sorts files and group them into a directory
 
-has two modes: file-type and date sorting
+It has two modes: file-type and date sorting
 
-disclaimer don't use in system folders
+Warning: don't use in system folders
