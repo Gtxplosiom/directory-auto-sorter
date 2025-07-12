@@ -79,7 +79,7 @@ app.whenReady().then(() => {
   const updateContextMenu = () => {
     let contextMenuItems = [
         {label: 'Target Directory', submenu: targetDirItems},
-        {label: '(Default) Directory Sorting', type: 'radio', checked: createDir, click: () => {
+        {label: '(Default) File-type Sorting', type: 'radio', checked: createDir, click: () => {
             dateSort = false;    // TODO: enclose these in an object
             createDir = true;
             updateMode(acceptedArgs[0]);
