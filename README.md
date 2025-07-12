@@ -7,5 +7,5 @@ It has two modes: file-type and date sorting
 Warning: don't use in system folders
 
 USAGE:
-  click app icon in the system tray to sort files
+  click app icon in the system tray to sort files,
   default target directory is desktop and mode file type sorting
