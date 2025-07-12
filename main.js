@@ -4,22 +4,24 @@ const os = require('os')
 
 let tray = null;
 
+// default user directories
 let userHome = os.homedir();
 let userDesktop = userHome + '\\Desktop';   // default dir for sort
 
+// sorting modes
 let acceptedArgs = ['createDir', 'categorySort'];
 
 // store/remember radio button state after context menu update
 let createDir = true;
 let categoryDir = false;
 
-// command structure
+// command structure. below are the initial state
 let baseCommand = 'python services/sort.py';
 let currentDir = `\"${userDesktop}\"`;
 let currentMode = acceptedArgs[0];
 
 app.whenReady().then(() => {
-  tray = new Tray('assets/sort.png')
+  tray = new Tray('assets/sort.png');
 
   // one click sort
   tray.addListener('click', () => {
@@ -31,6 +33,7 @@ app.whenReady().then(() => {
     execCommand(command);
   });
 
+  // executes python scripts
   const execCommand = (command) => {
     try {
         exec(command, (error, stdout, stderr) => {
@@ -41,11 +44,12 @@ app.whenReady().then(() => {
     }
   }
 
-  // update/refresh activate command with updated current directory
+  // updates current target directory
   const updateDir = (dir) => {
     currentDir = dir;
   }
 
+  // updates current sorting mode
   const updateMode = (mode) => {
     currentMode = mode;
   }
@@ -61,8 +65,8 @@ app.whenReady().then(() => {
             properties: ['openDirectory']
         }).then((result) => {
             if (!result.canceled) {
-                targetDirItems.push({label: `${result.filePaths[0]}`, type: 'radio', checked: false, click: () => {
-                    updateDir(result.filePaths[0]);
+                targetDirItems.push({label: `${result.filePaths[0]}`, type: 'radio', checked: false, click: (pathItem) => {
+                    updateDir(pathItem.label);
                 }});
             }
             updateContextMenu();
