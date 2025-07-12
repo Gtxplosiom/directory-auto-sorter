@@ -1,6 +1,12 @@
 const { app, Menu, Tray, dialog } = require('electron');
 const { exec } = require('child_process');
 const os = require('os')
+const path = require('path');
+const isDev = !app.isPackaged;
+
+const iconPath = isDev
+  ? path.join(__dirname, 'assets', 'sort.ico')
+  : path.join(process.resourcesPath, 'assets', 'sort.ico');
 
 let tray = null;
 
@@ -21,7 +27,7 @@ let currentDir = `\"${userDesktop}\"`;
 let currentMode = acceptedArgs[0];
 
 app.whenReady().then(() => {
-  tray = new Tray('assets/sort.ico');
+  tray = new Tray(iconPath);
 
   // one click sort
   tray.addListener('click', () => {

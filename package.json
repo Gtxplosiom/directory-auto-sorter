@@ -17,14 +17,24 @@
       "output": "dist"
     },
     "files": [
-      "**/*"
+      "main.js",
+      "assets/**",
+      "services/**",
+      "node_modules/**",
+      "package.json"
     ],
     "extraResources": [
-      "services/**"
+      "services/**",
+      "assets/**"
     ],
     "win": {
       "target": "nsis",
       "icon": "assets/sort.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
     }
   },
   "devDependencies": {
