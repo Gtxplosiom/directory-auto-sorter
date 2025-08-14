@@ -4,6 +4,7 @@ const os = require('os')
 const path = require('path');
 const isDev = !app.isPackaged;
 
+// debugging mode or actual app na para di magkaloko an mga assets ngan an connection nira ha user directories 
 const iconPath = isDev
   ? path.join(__dirname, 'assets', 'sort.ico')
   : path.join(process.resourcesPath, 'assets', 'sort.ico');
@@ -18,7 +19,7 @@ let tray = null;
 let userHome = os.homedir();
 let userDesktop = userHome + '\\Desktop';   // default dir for sort
 
-// sorting modes
+// an current nga sorting modes
 let acceptedArgs = ['createDir', 'dateSort'];
 
 // store/remember radio button state after context menu update
@@ -43,7 +44,7 @@ app.whenReady().then(() => {
     execCommand(command);
   });
 
-  // executes python scripts
+  // nag e-execute han python script
   const execCommand = (command) => {
     try {
         exec(command, (error, stdout, stderr) => {
@@ -54,12 +55,12 @@ app.whenReady().then(() => {
     }
   }
 
-  // updates current target directory
+  // helper method para ma update an state han current directory
   const updateDir = (dir) => {
     currentDir = dir;
   }
 
-  // updates current sorting mode
+  // usame as this para ma update kada traversal ha ui
   const updateMode = (mode) => {
     currentMode = mode;
   }
@@ -68,7 +69,9 @@ app.whenReady().then(() => {
     tray.setToolTip(`Tap the Icon to sort ${currentDir} or Right-click for options`);
   }
 
-  // add new path to target as well as 'remember' paths previously targeted
+  // TODO: ig implement so an mga na add hin users na recent 10 na directories ma reremember kada open han app
+  // kay yana na fo-forget kada shutdown (kun gin startup mo) or exit and open again (or restart)
+  // TODO: ig pa auto startup app 
   let targetDirItems = [
     {label: '(Default) Desktop', type: 'radio', checked: true, click: () => {
         updateDir(userDesktop);
