@@ -8,6 +8,10 @@ const iconPath = isDev
   ? path.join(__dirname, 'assets', 'sort.ico')
   : path.join(process.resourcesPath, 'assets', 'sort.ico');
 
+const scriptPath = isDev
+  ? path.join(__dirname, 'services', 'sort.py')
+  : path.join(process.resourcesPath, 'services', 'sort.py');
+
 let tray = null;
 
 // default user directories
@@ -22,7 +26,7 @@ let createDir = true;
 let dateSort = false;
 
 // command structure. below are the initial state
-let baseCommand = 'python services/sort.py';
+let baseCommand = `python \"${scriptPath}\"`;
 let currentDir = `\"${userDesktop}\"`;
 let currentMode = acceptedArgs[0];
 
