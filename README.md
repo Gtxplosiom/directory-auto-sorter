@@ -2,12 +2,12 @@
 
 A simple windows desktop system-tray app that sorts files and group them into a directory
 
-It has two modes: file-type and date sorting
+It has two modes: file-type and date sorting, the ones that are sorted will be put into directory_sorted and date_sorted folders depending on what mode you choose
 
-Warning: don't use in system folders
+## Warning: don't use in system folders, please choose carefully on where you sort, there is no undo function yet
 
 USAGE:
   click app icon in the system tray to sort files,
-  default target directory is desktop and mode file type sorting
+  default target directory is desktop and default sort mode is file type sorting
   
 ![Directory-auto-sorter-icon](https://github.com/user-attachments/assets/5d4883eb-9b56-4864-bde5-c2a739e93739)
