@@ -1,4 +1,4 @@
-# directory-auto-sorter
+# Directory Auto-Sorter
 
 A simple windows desktop system-tray app that sorts files and group them into a directory
 
