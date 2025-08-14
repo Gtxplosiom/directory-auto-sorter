@@ -51,6 +51,7 @@ class Sorter:
 
             # key change para ma skip an mga directory ngan kun an ngaran an sorted folder name para fullproof la
             # though bangin magkaada issue ha sorted folder pero sunod nala iton
+            # ngan consider kun ig i-include an mga shortcuts (.Ink) files
             if os.path.isdir(filepath) or item == 'directory_sorted':
                 continue
 

@@ -28,7 +28,7 @@ let dateSort = false;
 
 // command structure. below are the initial state
 let baseCommand = `python \"${scriptPath}\"`;
-let currentDir = `\"${userDesktop}\"`;
+let currentDir = userDesktop;
 let currentMode = acceptedArgs[0];
 
 app.whenReady().then(() => {
@@ -37,6 +37,7 @@ app.whenReady().then(() => {
   // one click sort
   tray.addListener('click', () => {
 
+    // make this cleaner ha future, use path joining sheets
     let command = baseCommand + ' ' + currentMode + ' ' + currentDir;
 
     console.log(command);
@@ -56,8 +57,9 @@ app.whenReady().then(() => {
   }
 
   // helper method para ma update an state han current directory
+  // wrapped directory ha double quotes para ha may space nga directory names
   const updateDir = (dir) => {
-    currentDir = dir;
+    currentDir = `"${dir}"`;
   }
 
   // usame as this para ma update kada traversal ha ui
@@ -70,6 +72,7 @@ app.whenReady().then(() => {
   }
 
   // TODO: ig implement so an mga na add hin users na recent 10 na directories ma reremember kada open han app
+  // TODO: kailangan ma auto select an directory after slecting new directory
   // kay yana na fo-forget kada shutdown (kun gin startup mo) or exit and open again (or restart)
   // TODO: ig pa auto startup app 
   let targetDirItems = [
@@ -123,5 +126,6 @@ app.whenReady().then(() => {
     tray.setContextMenu(newContextMenu);
   }
 
+  updateDir(userDesktop);
   updateContextMenu();
 })
