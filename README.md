@@ -4,7 +4,7 @@ A simple windows desktop system-tray app that sorts files and group them into a 
 
 It has two modes: file-type and date sorting, the ones that are sorted will be put into directory_sorted and date_sorted folders depending on what mode you choose
 
-## Warning: don't use in system folders, please choose carefully on where you sort, there is no undo function yet
+## Warning: don't use in system folders, please choose carefully on where you sort, there is no undo function yet!
 
 USAGE:
   click app icon in the system tray to sort files,
